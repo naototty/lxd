@@ -1,0 +1,43 @@
+# Supfile
+#
+
+networks:
+    dev:
+        hosts:
+            - localhost
+
+targets:
+    bd:
+        - do_bd
+        - do_bd_check
+    bs:
+        - do_bs
+        - do_bs_check
+    bs2:
+        - do_bs2
+        - do_bs2_check
+
+commands:
+    do_bd:
+        desc: go build detail
+        run: go build -v -x -o bd-dyn-lxd-p2c
+    do_bd_check:
+        desc: file check
+        run: file bd-dyn-lxd-p2c
+
+commands:
+    do_bs:
+        desc: static go build detail
+        run: go build -v -x -o bs-static-lxd-p2c -a -tags netgo -installsuffix netgo
+    do_bs_check:
+        desc: file check
+        run: file bs-static-lxd-p2c
+
+commands:
+    do_bs2:
+        desc: static go build detail 2
+        run: export CFLAGS="-static -static-libgcc"; go build -v -x -o bs2-static-lxd-p2c -a -tags netgo -installsuffix netgo --ldflags '-extldflags "-static"'
+    do_bs2_check:
+        desc: file check
+        run: file bs2-static-lxd-p2c
+
